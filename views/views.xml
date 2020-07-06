@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="hr_contract_inherit_form_view" model="ir.ui.view">
+            <field name="name">hr.contract.inherit.form.view</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='job_id']" position="after">
+                    <field name="contract_file" widget="many2many_binary"/>
+                    <field name="contract_period"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="ir_cron_send_notify_to_admin" model="ir.cron">
+            <field name="name">Contract Period: Notify To Admin</field>
+            <field name="model_id" ref="model_hr_contract"/>
+            <field name="state">code</field>
+            <field name="code">model._send_notify()</field>
+            <field name="interval_number">6</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+    </data>
+</odoo>
